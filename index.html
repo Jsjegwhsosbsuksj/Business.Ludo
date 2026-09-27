@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUSINESS LUDO</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase -->
+<script type="module" src="firebase.js"></script>
+
+<!-- Main JS -->
+<script type="module" src="script.js"></script>
+
+
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="topbar">
+
+    <h1>🎲 BUSINESS LUDO</h1>
+
+    <p>MBA Business Analytics Inter Club Championship</p>
+
+</header>
+
+<!-- ================= HOME ================= -->
+
+<section id="home" class="page active">
+
+    <div class="home-grid">
+
+        <div class="menu-card" onclick="openAdmin()">
+            <div class="icon">🔐</div>
+            <h2>Admin Login</h2>
+            <p>Evaluate Team Answers</p>
+        </div>
+
+        <div class="menu-card" onclick="openClub()">
+            <div class="icon">👥</div>
+            <h2>Club Login</h2>
+            <p>HR • Marketing • Finance • Operations</p>
+        </div>
+
+        <div class="menu-card" onclick="openBoard()">
+            <div class="icon">🎯</div>
+            <h2>Public Ludo Board</h2>
+            <p>Live Multiplayer Board</p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= CLUB LOGIN ================= -->
+
+<section id="clubPage" class="page">
+
+    <h2 class="title">Select Your Club</h2>
+
+    <div class="club-grid">
+
+        <button class="club hr" onclick="loginClub('HR')">
+            HR
+        </button>
+
+        <button class="club marketing" onclick="loginClub('Marketing')">
+            Marketing
+        </button>
+
+        <button class="club finance" onclick="loginClub('Finance')">
+            Finance
+        </button>
+
+        <button class="club operations" onclick="loginClub('Operations')">
+            Operations
+        </button>
+
+    </div>
+
+    <button class="back" onclick="goHome()">
+        ← Back
+    </button>
+
+</section>
+
+<!-- ================= TEAM PAGE ================= -->
+
+<section id="teamPage" class="page">
+
+    <div class="team-header">
+
+        <h2 id="teamTitle">
+            Welcome HR Team
+        </h2>
+
+        <div class="badge" id="caseBadge">
+            Case 1
+        </div>
+
+    </div>
+
+    <div class="progress-wrapper">
+
+        <div class="progress-text">
+
+            <span>Progress</span>
+
+            <span id="progressLabel">1 / 100</span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div id="progressFill" class="progress-fill"></div>
+
+        </div>
+
+    </div>
+
+    <!-- Status -->
+    <div id="statusPanel" class="status available">
+
+        <h3 id="statusTitle">
+            Case Available
+        </h3>
+
+        <p id="statusText">
+            Start solving the business analytics challenge.
+        </p>
+
+    </div>
+
+    <!-- Dynamic Case -->
+    <div id="caseContainer"></div>
+
+</section>
+
+<!-- ================= ADMIN LOGIN ================= -->
+
+<section id="adminLogin" class="page">
+
+    <div class="login-box">
+
+        <h2>Admin Login</h2>
+
+        <input
+            id="adminPassword"
+            type="password"
+            placeholder="Enter Password">
+
+        <button onclick="adminLogin()">
+            Login
+        </button>
+
+        <button class="back" onclick="goHome()">
+            Back
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ================= ADMIN DASHBOARD ================= -->
+
+<section id="adminPage" class="page">
+
+    <div class="admin-header">
+
+        <h2>Admin Dashboard</h2>
+
+        <div class="live-dot">
+            ● LIVE
+        </div>
+
+    </div>
+
+    <!-- Summary -->
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+            <h3 id="pendingCount">0</h3>
+            <p>Pending</p>
+        </div>
+
+        <div class="summary-card">
+            <h3 id="approvedCount">0</h3>
+            <p>Approved</p>
+        </div>
+
+        <div class="summary-card">
+            <h3 id="rejectedCount">0</h3>
+            <p>Rejected</p>
+        </div>
+
+        <div class="summary-card">
+            <h3 id="totalCount">0</h3>
+            <p>Total</p>
+        </div>
+
+    </div>
+
+    <h3 class="section-title">
+        Pending Answers
+    </h3>
+
+    <div id="submissionList"></div>
+
+    <button class="back" onclick="goHome()">
+        Home
+    </button>
+
+</section>
+
+<!-- ================= PUBLIC LUDO ================= -->
+
+<section id="boardPage" class="page">
+
+    <div class="board-layout">
+
+        <!-- Leaderboard -->
+
+        <div class="score-panel">
+
+            <h2>Leaderboard</h2>
+
+            <div id="teamScores"></div>
+
+        </div>
+
+        <!-- Original Board -->
+
+        <div class="board-panel">
+
+            <h2>Business Ludo Board</h2>
+
+            <div class="ludo-wrapper">
+
+                <div class="ludo-wrapper">
+  <svg id="ludoBoard" viewBox="0 0 600 600">
+
+    <!-- WHITE BACKGROUND -->
+    <rect width="600" height="600" fill="#ffffff"/>
+
+    <!-- RED HOME -->
+    <rect x="0" y="0" width="240" height="240" fill="#ef4444"/>
+    <rect x="40" y="40" width="160" height="160" rx="20" fill="#fff"/>
+    <circle cx="90" cy="90" r="22" fill="#ef4444"/>
+    <circle cx="150" cy="90" r="22" fill="#ef4444"/>
+    <circle cx="90" cy="150" r="22" fill="#ef4444"/>
+    <circle cx="150" cy="150" r="22" fill="#ef4444"/>
+
+    <!-- GREEN HOME -->
+    <rect x="360" y="0" width="240" height="240" fill="#22c55e"/>
+    <rect x="400" y="40" width="160" height="160" rx="20" fill="#fff"/>
+    <circle cx="450" cy="90" r="22" fill="#22c55e"/>
+    <circle cx="510" cy="90" r="22" fill="#22c55e"/>
+    <circle cx="450" cy="150" r="22" fill="#22c55e"/>
+    <circle cx="510" cy="150" r="22" fill="#22c55e"/>
+
+    <!-- BLUE HOME -->
+    <rect x="0" y="360" width="240" height="240" fill="#2563eb"/>
+    <rect x="40" y="400" width="160" height="160" rx="20" fill="#fff"/>
+    <circle cx="90" cy="450" r="22" fill="#2563eb"/>
+    <circle cx="150" cy="450" r="22" fill="#2563eb"/>
+    <circle cx="90" cy="510" r="22" fill="#2563eb"/>
+    <circle cx="150" cy="510" r="22" fill="#2563eb"/>
+
+    <!-- YELLOW HOME -->
+    <rect x="360" y="360" width="240" height="240" fill="#facc15"/>
+    <rect x="400" y="400" width="160" height="160" rx="20" fill="#fff"/>
+    <circle cx="450" cy="450" r="22" fill="#facc15"/>
+    <circle cx="510" cy="450" r="22" fill="#facc15"/>
+    <circle cx="450" cy="510" r="22" fill="#facc15"/>
+    <circle cx="510" cy="510" r="22" fill="#facc15"/>
+
+    <!-- GRID -->
+    <g stroke="#222" stroke-width="1">
+      <!-- vertical -->
+      <line x1="240" y1="0" x2="240" y2="600"/>
+      <line x1="280" y1="0" x2="280" y2="600"/>
+      <line x1="320" y1="0" x2="320" y2="600"/>
+      <line x1="360" y1="0" x2="360" y2="600"/>
+
+      <!-- horizontal -->
+      <line x1="0" y1="240" x2="600" y2="240"/>
+      <line x1="0" y1="280" x2="600" y2="280"/>
+      <line x1="0" y1="320" x2="600" y2="320"/>
+      <line x1="0" y1="360" x2="600" y2="360"/>
+    </g>
+
+    <!-- CENTER STAR -->
+    <polygon points="300,230 320,280 370,300 320,320 300,370 280,320 230,300 280,280"
+             fill="#9ca3af"/>
+
+    <!-- TOKENS -->
+    <circle id="tokenHR" cx="300" cy="560" r="13" fill="#2563eb" stroke="#fff" stroke-width="3"/>
+    <circle id="tokenMarketing" cx="280" cy="560" r="13" fill="#ec4899" stroke="#fff" stroke-width="3"/>
+    <circle id="tokenFinance" cx="320" cy="560" r="13" fill="#16a34a" stroke="#fff" stroke-width="3"/>
+    <circle id="tokenOperations" cx="340" cy="560" r="13" fill="#ea580c" stroke="#fff" stroke-width="3"/>
+
+  </svg>
+</div>
+
+                <div id="tokenHR" class="token blue"></div>
+
+                <div id="tokenMarketing" class="token pink"></div>
+
+                <div id="tokenFinance" class="token green"></div>
+
+                <div id="tokenOperations" class="token orange"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <button class="back" onclick="goHome()">
+        Home
+    </button>
+
+</section>
+
+<!-- ================= VIEW ANSWER MODAL ================= -->
+
+<div id="answerModal" class="modal">
+
+    <div class="modal-content">
+
+        <h2 id="modalClub">HR Team</h2>
+
+        <h3 id="modalCase">Case 1</h3>
+
+        <div id="modalAnswer"></div>
+
+        <div class="modal-buttons">
+
+            <button class="approve" onclick="approveSubmission()">
+                ✔ Correct
+            </button>
+
+            <button class="reject" onclick="rejectSubmission()">
+                ✖ Wrong
+            </button>
+
+            <button class="close" onclick="closeModal()">
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Floating Home -->
+
+<div class="floating-home" onclick="goHome()">
+    🏠
+</div>
+
+</body>
+</html>
